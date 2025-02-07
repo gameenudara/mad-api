@@ -42,4 +42,14 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = customerRepository.findAll();
         return customers.stream().map(customer -> modelMapper.map(customer, CustomerResponse.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public CustomerResponse update(CustomerRequest customerRequest, Long customerId) throws CustomerNotFoundException {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(
+                () -> new CustomerNotFoundException("Customer Id : "+customerId+ "Customer not found")
+        );
+        modelMapper.map(customerRequest, customer);
+        customerRepository.save(customer);
+        return modelMapper.map(customer, CustomerResponse.class);
+    }
 }

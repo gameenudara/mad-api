@@ -15,4 +15,6 @@ public interface CustomerService {
     CustomerResponse findById(Long customerId)throws CustomerNotFoundException;
 
     List<CustomerResponse> findAll();
+
+    CustomerResponse update(CustomerRequest customerRequest,Long customerId)throws CustomerNotFoundException;
 }

@@ -22,7 +22,7 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.create(customerRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "customer/{customer-id}",headers = "X-Api-Version=v1")
+    @GetMapping(value = "customers/{customer-id}",headers = "X-Api-Version=v1")
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable("customer-id") Long customerId) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.findById(customerId),HttpStatus.OK);
     }
@@ -33,4 +33,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerResponses,HttpStatus.OK);
     }
 
+    @PutMapping(value = "customers/{customer-id}",headers = "X-Api-Version=v1")
+    public ResponseEntity<CustomerResponse> updateCustomer (@RequestBody CustomerRequest customerRequest, @PathVariable("customer-id") Long customerId)throws CustomerNotFoundException {
+        return new ResponseEntity<>(customerService.update(customerRequest,customerId),HttpStatus.OK);
+    }
 }
