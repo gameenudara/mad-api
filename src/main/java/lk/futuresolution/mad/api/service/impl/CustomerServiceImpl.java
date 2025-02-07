@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -32,5 +35,11 @@ public class CustomerServiceImpl implements CustomerService {
         );
 
         return modelMapper.map(customer, CustomerResponse.class);
+    }
+
+    @Override
+    public List<CustomerResponse> findAll(){
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream().map(customer -> modelMapper.map(customer, CustomerResponse.class)).collect(Collectors.toList());
     }
 }

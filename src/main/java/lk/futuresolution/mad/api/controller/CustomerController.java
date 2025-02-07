@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 public class CustomerController {
@@ -24,4 +26,11 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable("customer-id") Long customerId) throws CustomerNotFoundException {
         return new ResponseEntity<>(customerService.findById(customerId),HttpStatus.OK);
     }
+
+    @GetMapping(value = "customers",headers = "X-Api-Version=v1")
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<CustomerResponse> customerResponses = customerService.findAll();
+        return new ResponseEntity<>(customerResponses,HttpStatus.OK);
+    }
+
 }
