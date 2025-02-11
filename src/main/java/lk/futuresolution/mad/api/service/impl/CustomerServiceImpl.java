@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse findById(Long customerId) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(customerId).orElseThrow(
-                () -> new CustomerNotFoundException("Customer Id : "+customerId+ "Customer not found")
+                () -> new CustomerNotFoundException("Customer Id : "+customerId+ " Customer not found")
         );
 
         return modelMapper.map(customer, CustomerResponse.class);

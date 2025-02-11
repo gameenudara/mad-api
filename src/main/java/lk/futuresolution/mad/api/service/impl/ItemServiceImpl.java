@@ -2,6 +2,7 @@ package lk.futuresolution.mad.api.service.impl;
 
 import lk.futuresolution.mad.api.controller.Request.ItemRequest;
 import lk.futuresolution.mad.api.controller.Response.ItemResponse;
+import lk.futuresolution.mad.api.exception.ItemNotFoundException;
 import lk.futuresolution.mad.api.model.Item;
 import lk.futuresolution.mad.api.repository.ItemRepository;
 import lk.futuresolution.mad.api.service.ItemService;
@@ -20,6 +21,15 @@ public class ItemServiceImpl implements ItemService {
     public ItemResponse create(ItemRequest itemRequest) {
         Item item = modelMapper.map(itemRequest, Item.class);
         itemRepository.save(item);
+
+        return modelMapper.map(item, ItemResponse.class);
+    }
+
+    @Override
+    public ItemResponse getById(Long itemId) throws ItemNotFoundException {
+        Item item = itemRepository.findById(itemId).orElseThrow(
+                ()-> new ItemNotFoundException("Item Id : "+itemId+ " Item not found")
+        );
 
         return modelMapper.map(item, ItemResponse.class);
     }
